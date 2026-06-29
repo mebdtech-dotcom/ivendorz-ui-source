@@ -1,13 +1,17 @@
 import { IvChip } from "@/components/iv/iv-chip";
 import { IvMoney } from "@/components/iv/iv-money";
 import { IvStat } from "@/components/iv/iv-stat";
-import { kpis } from "../data";
+import type { KpiMetric } from "../contracts";
 
-export function KpiCards() {
+export interface KpiCardsProps {
+  metrics: KpiMetric[];
+}
+
+export function KpiCards({ metrics }: KpiCardsProps) {
   return (
     <section aria-label="Key metrics">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {kpis.map((kpi) => (
+        {metrics.map((kpi) => (
           <IvStat
             key={kpi.id}
             label={kpi.label}
@@ -19,13 +23,16 @@ export function KpiCards() {
                   className="text-2xl font-semibold"
                 />
               ) : (
-                kpi.value
+                // No value until the adapter supplies one.
+                kpi.value ?? "—"
               )
             }
             hint={
-              <IvChip tone={kpi.trendTone} className="mt-1">
-                {kpi.trendLabel}
-              </IvChip>
+              kpi.trend ? (
+                <IvChip tone={kpi.trend.tone} className="mt-1">
+                  {kpi.trend.label}
+                </IvChip>
+              ) : undefined
             }
           />
         ))}

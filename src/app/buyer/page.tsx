@@ -17,14 +17,23 @@ import { KpiCards } from "./components/kpi-cards";
 import { QuotationsPanel } from "./components/quotations-panel";
 import { Sidebar } from "./components/sidebar";
 import { Topbar } from "./components/topbar";
+// TODO(api): swap mockBuyerDashboardAdapter for the real adapter bound to the
+// governed buyer contracts. The shell depends only on the adapter interface.
+import { mockBuyerDashboardAdapter } from "./mock-adapter";
 
-export default function BuyerDashboardPage() {
+export default async function BuyerDashboardPage() {
+  const [{ kpis, approvals, rfqs, quotations, activity }, shell] =
+    await Promise.all([
+      mockBuyerDashboardAdapter.getDashboardData(),
+      mockBuyerDashboardAdapter.getShellContext(),
+    ]);
+
   return (
     <div className="flex min-h-svh bg-background text-foreground">
-      <Sidebar />
+      <Sidebar user={shell.user} badges={shell.navBadges} />
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <Topbar />
+        <Topbar notificationsLabel={shell.notificationsLabel} />
 
         <main className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
           <div className="mx-auto flex max-w-6xl flex-col gap-6">
@@ -43,16 +52,16 @@ export default function BuyerDashboardPage() {
               </IvButton>
             </div>
 
-            <KpiCards />
+            <KpiCards metrics={kpis} />
 
             <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
               <div className="flex flex-col gap-6 xl:col-span-2">
-                <ApprovalQueue />
-                <ActiveRfqs />
+                <ApprovalQueue items={approvals} />
+                <ActiveRfqs items={rfqs} />
               </div>
               <div className="flex flex-col gap-6">
-                <QuotationsPanel />
-                <ActivityFeed />
+                <QuotationsPanel items={quotations} />
+                <ActivityFeed items={activity} />
               </div>
             </div>
 

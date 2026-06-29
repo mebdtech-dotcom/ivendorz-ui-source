@@ -6,30 +6,41 @@ import {
   Receipt,
   Settings,
   ShieldCheck,
+  User,
   Users,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import type { SessionUser } from "../contracts";
 
 interface NavItem {
+  id: string;
   label: string;
   icon: React.ComponentType<{ className?: string }>;
   active?: boolean;
-  badge?: string;
 }
 
+// Structural navigation slots (labels + icons). Counts are NOT defined here;
+// they arrive via `badges` from the adapter.
 const nav: NavItem[] = [
-  { label: "Dashboard", icon: LayoutDashboard, active: true },
-  { label: "RFQs", icon: FileText, badge: "12" },
-  { label: "Quotations", icon: ClipboardList, badge: "28" },
-  { label: "Approvals", icon: ShieldCheck, badge: "5" },
-  { label: "Orders", icon: Package },
-  { label: "Invoices", icon: Receipt },
-  { label: "Suppliers", icon: Users },
-  { label: "Settings", icon: Settings },
+  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, active: true },
+  { id: "rfqs", label: "RFQs", icon: FileText },
+  { id: "quotations", label: "Quotations", icon: ClipboardList },
+  { id: "approvals", label: "Approvals", icon: ShieldCheck },
+  { id: "orders", label: "Orders", icon: Package },
+  { id: "invoices", label: "Invoices", icon: Receipt },
+  { id: "suppliers", label: "Suppliers", icon: Users },
+  { id: "settings", label: "Settings", icon: Settings },
 ];
 
-export function Sidebar() {
+export interface SidebarProps {
+  /** Current user; `null` renders a generic placeholder. */
+  user: SessionUser | null;
+  /** Optional per-nav badge labels, keyed by nav id. */
+  badges?: Record<string, string>;
+}
+
+export function Sidebar({ user, badges = {} }: SidebarProps) {
   return (
     <aside className="hidden w-60 shrink-0 flex-col border-r border-sidebar-border bg-sidebar lg:flex">
       <div className="flex h-16 items-center gap-2 border-b border-sidebar-border px-6">
@@ -45,8 +56,9 @@ export function Sidebar() {
         <ul className="flex flex-col gap-1">
           {nav.map((item) => {
             const Icon = item.icon;
+            const badge = badges[item.id];
             return (
-              <li key={item.label}>
+              <li key={item.id}>
                 <a
                   href="#"
                   aria-current={item.active ? "page" : undefined}
@@ -59,16 +71,16 @@ export function Sidebar() {
                 >
                   <Icon className="size-4 shrink-0" />
                   <span className="flex-1">{item.label}</span>
-                  {item.badge ? (
+                  {badge ? (
                     <span
                       className={cn(
                         "rounded-full px-2 py-0.5 text-xs tabular-nums",
-                      item.active
-                        ? "bg-sidebar-primary-foreground/20 text-sidebar-primary-foreground"
-                        : "bg-muted text-foreground",
+                        item.active
+                          ? "bg-sidebar-primary-foreground/20 text-sidebar-primary-foreground"
+                          : "bg-muted text-foreground",
                       )}
                     >
-                      {item.badge}
+                      {badge}
                     </span>
                   ) : null}
                 </a>
@@ -81,15 +93,19 @@ export function Sidebar() {
       <div className="border-t border-sidebar-border p-3">
         <div className="flex items-center gap-3 rounded-[var(--radius)] px-3 py-2">
           <div className="flex size-8 items-center justify-center rounded-full bg-muted text-xs font-medium text-foreground">
-            AR
+            {user ? (
+              user.initials
+            ) : (
+              <User className="size-4 text-muted-foreground" aria-hidden="true" />
+            )}
           </div>
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-medium text-sidebar-foreground">
-              Arefin R.
+              {user ? user.name : "Not signed in"}
             </p>
-            <p className="truncate text-xs text-foreground/70">
-              Procurement lead
-            </p>
+            {user ? (
+              <p className="truncate text-xs text-foreground/70">{user.role}</p>
+            ) : null}
           </div>
         </div>
       </div>

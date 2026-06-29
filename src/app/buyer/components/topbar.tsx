@@ -6,7 +6,12 @@ import { useState } from "react";
 import { IvButton } from "@/components/iv/iv-button";
 import { cn } from "@/lib/utils";
 
-export function Topbar() {
+export interface TopbarProps {
+  /** Notifications summary (e.g. "3 unread"); `null` shows no indicator. */
+  notificationsLabel?: string | null;
+}
+
+export function Topbar({ notificationsLabel = null }: TopbarProps) {
   // Ephemeral UI state only — no fetching, no persistence.
   const [query, setQuery] = useState("");
 
@@ -42,13 +47,19 @@ export function Topbar() {
         <button
           type="button"
           className="relative inline-flex size-9 items-center justify-center rounded-[var(--radius)] text-foreground hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring/50 outline-none"
-          aria-label="Notifications, 3 unread"
+          aria-label={
+            notificationsLabel
+              ? `Notifications, ${notificationsLabel}`
+              : "Notifications"
+          }
         >
           <Bell className="size-5" />
-          <span
-            className="absolute right-1.5 top-1.5 size-2 rounded-full bg-destructive ring-2 ring-background"
-            aria-hidden="true"
-          />
+          {notificationsLabel ? (
+            <span
+              className="absolute right-1.5 top-1.5 size-2 rounded-full bg-destructive ring-2 ring-background"
+              aria-hidden="true"
+            />
+          ) : null}
         </button>
 
         <IvButton size="sm" className="gap-1.5">
