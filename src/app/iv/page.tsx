@@ -1,5 +1,6 @@
 import {
   CheckCircle2,
+  FileSearch,
   FileText,
   Inbox,
   Info,
@@ -10,11 +11,14 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { IvButton } from "@/components/iv/iv-button";
 import { IvChip } from "@/components/iv/iv-chip";
 import { IvEmptyState } from "@/components/iv/iv-empty-state";
 import { IvField } from "@/components/iv/iv-field";
 import { IvFileLink } from "@/components/iv/iv-file-link";
+import { IvFormField } from "@/components/iv/iv-form-field";
 import { IvMoney } from "@/components/iv/iv-money";
+import { IvNotFound } from "@/components/iv/iv-not-found";
 import { IvStat } from "@/components/iv/iv-stat";
 
 export default function IvPrimitivesPage() {
@@ -29,6 +33,27 @@ export default function IvPrimitivesPage() {
           do not decide. All content below is passed in by this page.
         </p>
       </header>
+
+      <Section title="iv-button" hint="Variants primary/secondary/ghost/destructive, sizes sm/md/lg, asChild + loading. Tokens only, AA focus ring.">
+        <div className="flex flex-wrap items-center gap-3">
+          <IvButton variant="primary">Primary</IvButton>
+          <IvButton variant="secondary">Secondary</IvButton>
+          <IvButton variant="ghost">Ghost</IvButton>
+          <IvButton variant="destructive">Destructive</IvButton>
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <IvButton size="sm">Small</IvButton>
+          <IvButton size="md">Medium</IvButton>
+          <IvButton size="lg">Large</IvButton>
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <IvButton loading>Loading</IvButton>
+          <IvButton disabled>Disabled</IvButton>
+          <IvButton asChild variant="secondary">
+            <a href="#iv-button">As link (asChild)</a>
+          </IvButton>
+        </div>
+      </Section>
 
       <Section title="iv-chip" hint="Generic chip — caller supplies tone + content. Color is never the only signal.">
         <div className="flex flex-wrap items-center gap-2">
@@ -122,6 +147,24 @@ export default function IvPrimitivesPage() {
         </div>
       </Section>
 
+      <Section title="iv-form-field" hint="Self-contained label + input + hint + error. Renders the error string only — no validation inside.">
+        <div className="grid gap-6 sm:grid-cols-2">
+          <IvFormField
+            id="iv-ff-name"
+            label="Full name"
+            hint="As it appears on your trade license."
+            placeholder="Jane Doe"
+            required
+          />
+          <IvFormField
+            id="iv-ff-phone"
+            label="Phone"
+            error="Enter a valid phone number."
+            defaultValue="12"
+          />
+        </div>
+      </Section>
+
       <Section title="iv-file-link" hint="Carries a fileRef only — no URL/path. Resolution is the app's job via onActivate.">
         <IvFileLink fileRef="ref_abc123" label="Quotation.pdf" icon={<FileText />} />
       </Section>
@@ -133,6 +176,13 @@ export default function IvPrimitivesPage() {
           description="There are no results for the current view."
           action={<Button variant="outline">Refresh</Button>}
         />
+      </Section>
+
+      <Section title="iv-not-found" hint="Identical whether a record is absent or hidden. Generic copy + optional caller reference id only.">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <IvNotFound icon={<FileSearch />} />
+          <IvNotFound icon={<FileSearch />} referenceId="REQ-7Q2F-PX" />
+        </div>
       </Section>
     </main>
   );
