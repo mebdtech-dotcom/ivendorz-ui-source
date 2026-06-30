@@ -47,10 +47,12 @@ export const mockBuyerDashboardAdapter: BuyerDashboardAdapter = {
     //   user               -> current session user
     //   navBadges          -> per-section unread/pending counts (keyed by nav id)
     //   notificationsLabel -> notifications summary (e.g. "3 unread")
+    // The values below are illustrative placeholders so the shell renders with
+    // representative chrome; swap for the real adapter to source live counts.
     return {
-      user: null,
-      navBadges: {},
-      notificationsLabel: null,
+      user: { name: "Musa", role: "Procurement Manager", initials: "MB" },
+      navBadges: { messages: "3", notifications: "8" },
+      notificationsLabel: "8 unread",
     };
   },
 };
