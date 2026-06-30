@@ -14,7 +14,8 @@ import { cn } from "@/lib/utils";
  * byte-identical when rendered through it — so the caller must pass the same
  * neutral copy for both and never inject protected detail here.
  */
-export interface IvEmptyStateProps extends React.ComponentProps<"div"> {
+export interface IvEmptyStateProps
+  extends Omit<React.ComponentProps<"div">, "title"> {
   icon?: React.ReactNode;
   title: React.ReactNode;
   description?: React.ReactNode;
