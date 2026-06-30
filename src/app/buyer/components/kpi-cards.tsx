@@ -1,0 +1,42 @@
+import { IvChip } from "@/components/iv/iv-chip";
+import { IvMoney } from "@/components/iv/iv-money";
+import { IvStat } from "@/components/iv/iv-stat";
+import type { KpiMetric } from "../contracts";
+
+export interface KpiCardsProps {
+  metrics: KpiMetric[];
+}
+
+export function KpiCards({ metrics }: KpiCardsProps) {
+  return (
+    <section aria-label="Key metrics">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {metrics.map((kpi) => (
+          <IvStat
+            key={kpi.id}
+            label={kpi.label}
+            value={
+              kpi.money ? (
+                <IvMoney
+                  amount={kpi.money.amount}
+                  currency={kpi.money.currency}
+                  className="text-2xl font-semibold"
+                />
+              ) : (
+                // No value until the adapter supplies one.
+                kpi.value ?? "—"
+              )
+            }
+            hint={
+              kpi.trend ? (
+                <IvChip tone={kpi.trend.tone} className="mt-1">
+                  {kpi.trend.label}
+                </IvChip>
+              ) : undefined
+            }
+          />
+        ))}
+      </div>
+    </section>
+  );
+}

@@ -36,6 +36,20 @@
   --destructive: #dc2626;           /* iv-danger-base */
   --destructive-foreground: #ffffff;
 
+  /* iVendorz semantic status + award tokens (additive; not part of shadcn-standard set).
+     Light values are 700/800-level so they pass WCAG-AA both as soft-tint text and as
+     solid fills with white text. Only iv-chip consumes these; charts use --chart-*. */
+  --iv-success: #166534;            /* iv-success-base (AA-safe) */
+  --iv-success-foreground: #ffffff;
+  --iv-warning: #92400e;            /* iv-warning-base (AA-safe) */
+  --iv-warning-foreground: #ffffff;
+  --iv-info: #1d4ed8;               /* iv-info-base (AA-safe) */
+  --iv-info-foreground: #ffffff;
+  --iv-amber: #9a3412;              /* iv-amber (award / high-value), AA-safe + distinct from warning */
+  --iv-amber-foreground: #ffffff;
+  --iv-danger: #b91c1c;             /* iv-danger text-on-light (AA-safe); destructive remains the fill token */
+  --iv-danger-foreground: #ffffff;
+
   --border: #e2e8f0;                /* iv-light-border */
   --input: #e2e8f0;
   --ring: #6366f1;                  /* iv-brand-500 */
@@ -83,6 +97,18 @@
   --destructive: #dc2626;
   --destructive-foreground: #ffffff;
 
+  /* iVendorz semantic status + award tokens (additive; not part of shadcn-standard set) */
+  --iv-success: #22c55e;            /* iv-success-bright */
+  --iv-success-foreground: #0a0e1a;
+  --iv-warning: #fbbf24;            /* iv-warning-bright */
+  --iv-warning-foreground: #0a0e1a;
+  --iv-info: #3b82f6;               /* iv-info-bright */
+  --iv-info-foreground: #0a0e1a;
+  --iv-amber: #fbbf24;              /* iv-amber (award / high-value) */
+  --iv-amber-foreground: #0a0e1a;
+  --iv-danger: #f87171;             /* iv-danger text-on-dark (AA-safe) */
+  --iv-danger-foreground: #0a0e1a;
+
   --border: #252d47;                /* iv-surface-border */
   --input: #252d47;
   --ring: #6366f1;                  /* iv-brand-500 */
@@ -128,6 +154,17 @@
 
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-iv-success: var(--iv-success);
+  --color-iv-success-foreground: var(--iv-success-foreground);
+  --color-iv-warning: var(--iv-warning);
+  --color-iv-warning-foreground: var(--iv-warning-foreground);
+  --color-iv-info: var(--iv-info);
+  --color-iv-info-foreground: var(--iv-info-foreground);
+  --color-iv-amber: var(--iv-amber);
+  --color-iv-amber-foreground: var(--iv-amber-foreground);
+  --color-iv-danger: var(--iv-danger);
+  --color-iv-danger-foreground: var(--iv-danger-foreground);
 
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
